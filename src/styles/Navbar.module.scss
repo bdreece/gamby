@@ -1,0 +1,6 @@
+@use 'helpers/flex';
+
+.navbar {
+  @include flex.box($justify: space-between, $align: center);
+  padding-inline: 2rem;
+}

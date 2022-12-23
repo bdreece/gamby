@@ -64,20 +64,20 @@ const King: FC = () => {
     >
       <g
         fill='none'
-        fill-rule='evenodd'
+        fillRule='evenodd'
         stroke='#000'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='1.5'
       >
         <path
-          stroke-linejoin='miter'
+          strokeLinejoin='miter'
           d='M22.5 11.63V6M20 8h5'
         />
         <path
           fill='#fff'
-          stroke-linecap='butt'
-          stroke-linejoin='miter'
+          strokeLinecap='butt'
+          strokeLinejoin='miter'
           d='M22.5 25s4.5-7.5 3-10.5c0 0-1-2.5-3-2.5s-3 2.5-3 2.5c-1.5 3 3 10.5 3 10.5'
         />
         <path
