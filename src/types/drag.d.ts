@@ -1,8 +1,7 @@
 import type { DragEventHandler } from 'react';
 
+export type DragEvent = 'onDragStart' | 'onDragEnd' | 'onDragOver' | 'onDrop';
+
 export type DragEventHandlers = {
-  onDragStart?: DragEventHandler;
-  onDragEnd?: DragEventHandler;
-  onDragOver?: DragEventHandler;
-  onDrop?: DragEventHandler;
+  [TEvent in DragEvent]?: DragEventHandler;
 };
