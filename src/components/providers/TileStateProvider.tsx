@@ -1,13 +1,15 @@
-import type { FC, Dispatch, Reducer } from 'react';
+import { FC, Dispatch, Reducer, useEffect } from 'react';
 import type { ChildrenProps } from 'types/children';
-import type { Col, Row } from 'utils/position';
+import type { Col, Position, Row } from 'utils/position';
 import type { TileState } from 'utils/tile';
 
-import { createContext, useReducer, useContext } from 'react';
+import { createContext, useReducer, useState, useContext } from 'react';
 import { useGameState } from './GameStateProvider';
+import { match } from 'ts-pattern';
 
 export type TileStateAction = {
-  message: 'noop';
+  message: 'drop';
+  from: Position;
 };
 
 export type TileContext = TileState & {
@@ -21,6 +23,11 @@ export type TileStateProviderProps = ChildrenProps & {
   col: Col;
 };
 
+type TilePayload = {
+  from?: Position;
+  to: Position;
+};
+
 const context = createContext<TileContext>({
   color: 'dark',
   row: '1',
@@ -30,19 +37,38 @@ const context = createContext<TileContext>({
 
 export const useTileState = () => useContext(context);
 
-const reducer: Reducer<TileState, TileStateAction> = (state, action) => {
-  return { ...state };
-};
-
 const TileStateProvider: FC<TileStateProviderProps> = ({
   children,
   row,
   col,
 }) => {
-  const { tiles } = useGameState();
+  const { tiles, dispatch: gameStateDispatch } = useGameState();
+  const [payload, setPayload] = useState<TilePayload>({ to: [col, row] });
   const tile = tiles[col][row];
 
+  const reducer: Reducer<TileState, TileStateAction> = (state, action) =>
+    match(action)
+      .with({ message: 'drop' }, ({ message, from }) => {
+        console.debug({ message, from });
+        // gameStateDispatch({ message: 'move', from, to: [col, row] });
+        setPayload(({ to }) => ({ from, to }));
+        return state;
+      })
+      .exhaustive();
+
   const [state, dispatch] = useReducer(reducer, tile);
+
+  useEffect(() => {
+    if (payload.from) {
+      console.debug('dispatching move to game state from effect');
+      gameStateDispatch({
+        message: 'move',
+        from: payload.from,
+        to: payload.to,
+      });
+      setPayload(({ to }) => ({ to }));
+    }
+  }, [payload]);
 
   return (
     <context.Provider value={{ ...state, row, col, dispatch }}>

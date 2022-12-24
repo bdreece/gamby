@@ -18,6 +18,7 @@ export type PieceState = {
   team: Team;
   type: PieceType;
   alive: boolean;
+  isDragging: boolean;
 };
 
 export type PieceStateMap = PartialPositionStateMap<PieceState>;

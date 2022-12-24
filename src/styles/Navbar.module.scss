@@ -1,6 +1,22 @@
 @use 'helpers/flex';
 
 .navbar {
-  @include flex.box($justify: space-between, $align: center);
+  @include flex.box($justify: space-between);
+  align-items: center;
   padding-inline: 2rem;
+
+  ul,
+  li {
+    height: fit-content;
+  }
+
+  ul {
+    @include flex.box($align: center, $gap: 1rem);
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    list-style-type: none;
+  }
 }

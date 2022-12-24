@@ -7,13 +7,20 @@ import type { Team } from 'utils/team';
 import { createContext, useContext, useReducer } from 'react';
 import { initialState as pieceState } from '../../utils/piece';
 import { initialState as tileState } from '../../utils/tile';
+import { Position } from 'utils/position';
+import { match } from 'ts-pattern';
 
-export type GameStateAction =
+export type GameAction =
   | {
       message: 'start';
     }
   | {
       message: 'stop';
+    }
+  | {
+      message: 'move';
+      from: Position;
+      to: Position;
     };
 
 export type GameState = {
@@ -27,7 +34,7 @@ export type GameState = {
 };
 
 export type GameContext = GameState & {
-  dispatch: Dispatch<GameStateAction>;
+  dispatch: Dispatch<GameAction>;
 };
 
 export type GameStateProviderProps = ChildrenProps & {
@@ -45,9 +52,32 @@ const context = createContext<GameContext>({
 
 export const useGameState = () => useContext(context);
 
-const reducer: Reducer<GameState, GameStateAction> = (state, { message }) => {
-  return { ...state, isRunning: message === 'start' };
-};
+const reducer: Reducer<GameState, GameAction> = (state, action) =>
+  match(action)
+    .with({ message: 'start' }, () => ({
+      ...state,
+      isRunning: true,
+      startTime: new Date(),
+    }))
+    .with({ message: 'stop' }, () => ({
+      ...state,
+      isRunning: false,
+      endTime: new Date(),
+    }))
+    .with({ message: 'move' }, ({ message, from, to }) => {
+      let { pieces, currentTurn } = state;
+      console.debug({ message, from, to, currentTurn });
+      const [colFrom, rowFrom] = from;
+      const [colTo, rowTo] = to;
+      const piece = pieces[colFrom][rowFrom];
+      if (piece) {
+        pieces[colTo][rowTo] = piece;
+        pieces[colFrom][rowFrom] = undefined;
+      }
+      currentTurn = currentTurn === 'black' ? 'white' : 'black';
+      return { ...state, currentTurn, pieces };
+    })
+    .exhaustive();
 
 const GameStateProvider: FC<GameStateProviderProps> = ({
   children,

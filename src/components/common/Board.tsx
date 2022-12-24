@@ -1,7 +1,8 @@
-import type { FC } from 'react';
-import type {
+import type { FC, MouseEventHandler } from 'react';
+import {
   TileStateProviderProps,
   PieceStateProviderProps,
+  useGameState,
 } from '../providers';
 
 import { rows, cols } from '../../utils/position';
@@ -32,7 +33,15 @@ const Piece: FC<PieceComponentProps> = ({ row, col }) => (
 );
 
 const Board: FC = () => {
-  return (
+  const { isRunning, dispatch } = useGameState();
+
+  const onClick: MouseEventHandler = e => {
+    dispatch({ message: 'start' });
+  };
+
+  return !isRunning ? (
+    <button onClick={onClick}>Start</button>
+  ) : (
     <div className={classes.board}>
       {cols.flatMap(col =>
         rows.map(row => (

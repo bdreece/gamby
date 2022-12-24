@@ -1,7 +1,7 @@
-import type { FC } from 'react';
+import type { FC, DragEventHandler } from 'react';
 
 import { match } from 'ts-pattern';
-import { usePieceState, useTileState } from '../../providers';
+import { useGameState, usePieceState, useTileState } from '../../providers';
 
 import King from './King';
 import Queen from './Queen';
@@ -10,19 +10,36 @@ import Bishop from './Bishop';
 import Knight from './Knight';
 import Pawn from './Pawn';
 
-const Piece: FC = () => {
-  const { type } = usePieceState();
+import classes from '../../../styles/Piece.module.scss';
 
-  return type !== undefined
-    ? match(type)
+const Piece: FC = () => {
+  const { currentTurn } = useGameState();
+  const { row, col } = useTileState();
+  const { team, type, dispatch } = usePieceState();
+
+  const onDragStart: DragEventHandler = e => {
+    console.debug({ message: 'dragstart', from: [col, row] });
+    const json = JSON.stringify([col, row]);
+    e.dataTransfer.setData('application/json', json);
+    dispatch({ message: 'drag' });
+  };
+
+  return type !== undefined ? (
+    <div
+      draggable={currentTurn === team}
+      className={classes.piece}
+      onDragStart={onDragStart}
+    >
+      {match(type)
         .with('king', () => <King />)
         .with('queen', () => <Queen />)
         .with('rook', () => <Rook />)
         .with('bishop', () => <Bishop />)
         .with('knight', () => <Knight />)
         .with('pawn', () => <Pawn />)
-        .exhaustive()
-    : null;
+        .exhaustive()}
+    </div>
+  ) : null;
 };
 
 export default Piece;

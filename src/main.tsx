@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/layout';
 const Home = React.lazy(() => import('./pages/Home'));
 const Game = React.lazy(() => import('./pages/Game'));
+import './styles/index.scss';
 
 const router = createBrowserRouter([
   {
