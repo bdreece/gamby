@@ -18,7 +18,7 @@ const Tile: FC<TileProps> = ({ children }) => {
     },
   };
 
-  const handlers: DragEventHandlers = {
+  const handlers = {
     onDrop: e => {
       const json = e.dataTransfer.getData('application/json');
       const position: Position = JSON.parse(json);
@@ -32,7 +32,7 @@ const Tile: FC<TileProps> = ({ children }) => {
       const position: Position = JSON.parse(json);
       console.debug({ message: 'dragover', from: position });
     },
-  };
+  } satisfies DragEventHandlers;
 
   return (
     <div
