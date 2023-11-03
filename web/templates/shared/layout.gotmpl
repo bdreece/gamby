@@ -1,0 +1,34 @@
+{{ define "layout" }}
+    <!doctype html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8" />
+            <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0"
+            />
+            <link rel="stylesheet" href="/static/index.css" />
+
+            <title>Document</title>
+
+            <script type="importmap">
+                {
+                    "imports": {
+                        "components/": "/static/components/",
+                        "modules/": "/static/modules/",
+                        "htmx.org": "https://cdn.jsdelivr.net/npm/htmx.org@1.9.6/+esm",
+                        "lodash": "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/+esm"
+                    }
+                }
+            </script>
+        </head>
+
+        <body>
+            {{ template "header" }}
+
+            {{ template "content" }}
+
+            {{ template "footer" }}
+        </body>
+    </html>
+{{ end }}

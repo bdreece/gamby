@@ -1,0 +1,32 @@
+{
+    "name": "gamby",
+    "version": "0.1.0",
+    "repository": "https://github.com/bdreece/gamby",
+    "author": "Brian Reece <me@bdreece.dev>",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "postinstall": "husky install",
+        "build": "postcss web/app.css -o web/index.css",
+        "test": "vitest run",
+        "lint": "eslint --fix web/**/*.js",
+        "format": "prettier --check --ignore-unknown --write"
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.16",
+        "cssnano": "^6.0.1",
+        "eslint": "^8.52.0",
+        "eslint-config-prettier": "^9.0.0",
+        "husky": "^8.0.3",
+        "postcss": "^8.4.31",
+        "postcss-cli": "^10.1.0",
+        "postcss-load-config": "^4.0.1",
+        "prettier": "^3.0.3",
+        "prettier-plugin-go-template": "^0.0.15",
+        "tailwindcss": "^3.3.5",
+        "vitest": "^0.34.6"
+    },
+    "dependencies": {
+        "daisyui": "^3.9.4"
+    }
+}
