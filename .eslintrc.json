@@ -1,4 +1,11 @@
 {
-    "extends": ["eslint:recommended", "prettier"],
-    "ignorePatterns": ["web/**/*.test.js"]
+  "extends": ["eslint:recommended", "prettier"],
+  "ignorePatterns": ["web/dist/*"],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
 }

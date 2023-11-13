@@ -1,7 +1,8 @@
+/* eslint-disable */
+/** @type {import('postcss-load-config').Config}*/
 module.exports = {
-    plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
-        cssnano: {},
-    },
+  plugins: {
+    autoprefixer: {},
+    cssnano: {},
+  },
 };

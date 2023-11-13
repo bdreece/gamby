@@ -33,5 +33,5 @@ func provideLogger(c *config.Config) *slog.Logger {
 func provideTemplates() (*template.Template, error) {
 	return template.New("templates").
 		Funcs(sprig.FuncMap()).
-		ParseFS(os.DirFS("web/templates"), "**/*.gotmpl")
+		ParseFS(web.Templates, "templates/**/*.gotmpl")
 }
