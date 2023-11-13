@@ -1,4 +1,4 @@
-package router
+package index
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"github.com/bdreece/gamby/pkg/responder"
 )
 
-func index(html responder.HTML) http.HandlerFunc {
+func Get(html responder.HTML) http.HandlerFunc {
 	return func(w http.ResponseWriter, _ *http.Request) {
 		if err := html.Respond(w, responder.TemplateOptions{
 			Name:   "index",
